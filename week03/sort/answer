@@ -1,0 +1,36 @@
+sort1 uses: Bubble Sort
+How do you know?:
+10000
+    real    0m0.234s
+    user    0m0.174s
+    sys     0m0.033s
+50000
+    real    0m7.661s
+    user    0m5.055s
+    sys     0m0.501s
+Bubble sort has a high time complexity, so it typically takes the longest execution time.
+
+sort2 uses:merge sort
+
+How do you know?:
+10000
+    real    0m0.040s
+    user    0m0.004s
+    sys     0m0.032s
+50000
+    real    0m1.980s
+    user    0m0.031s
+    sys     0m0.151s
+When dealing with large amounts of data, merge sort, an O(n log n) algorithm, is more efficient than O(n²) algorithms.
+
+sort3 uses:selection sort
+10000
+    real    0m0.119s
+    user    0m0.082s
+    sys     0m0.033s
+50000
+    real    0m3.925s
+    user    0m1.948s
+    sys     0m0.176s
+How do you know?:
+ The number of comparisons remains O(n²), but the number of swaps has been reduced, making it faster than bubble sort, but still not comparable to merge sort.
