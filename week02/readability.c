@@ -53,7 +53,7 @@ int count_letters(string text)
     return letter;
 }
 
-// 修复后的单词计数函数
+// 单词计数函数
 int count_words(string text)
 {
     int word = 0;
@@ -79,7 +79,7 @@ int count_words(string text)
     return word;
 }
 
-// 修复后的句子计数函数
+// 句子计数函数
 int count_sentences(string text)
 {
     int sentence = 0;
