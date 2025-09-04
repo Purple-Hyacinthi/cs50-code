@@ -1,0 +1,24 @@
+Part 1: Audio Atmosphere Characteristics of the Audience
+Calculation Results
+Based on 100 songs in the "songs. dB" database, calculate and report the average values of three audio features:
+Average energy value (energy): SELECT AVG(energy) FROM songs;
+Average emotional value (valence): SELECT AVG(valence) FROM songs;
+Average dance value (danceability): SELECT AVG(danceability) FROM songs;
+
+Aesthetic Feature Description
+Based on the two features that deviate most significantly from the neutral value of 0.5, two emotional words are used to describe the audio atmosphere:
+The audio atmosphere of this listener can be described as: "[Emotion corresponding to Feature 1] and [Emotion corresponding to Feature 2]"
+(Example: If the energy is at its peak and the emotional value is the second highest → "Full of energy and happiness")
+
+Part Two: Reflection and Improvement Plan
+Defects of the Current Method
+• The average value masks the emotional fluctuations between songs (for example, intense songs and calm songs cancel each other out)
+• The actual playback frequency is not taken into account (single song loops and songs listened only once have the same weight)
+• Feature combinations are ignored (such as "melancholic dance music" which combines low emotion and high danceability is treated separately)
+Improvement plan
+Weighted by playback count:
+• Calculation method: SUM(feature value × playback count) / Total playback count
+• Advantage: More closely reflects real listening habits, highlighting the influence of frequently listened songs
+2. Emotional Clustering Analysis Method:
+• Calculation Method: Group songs based on all features and select the two clusters with the highest proportion of emotions.
+• Advantages: Captures complex emotional combinations and identifies mixed atmospheres
