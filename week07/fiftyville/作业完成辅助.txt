@@ -1,0 +1,50 @@
+sqlite> .schema
+
+表结构总结：
+1. crime_scene_reports（犯罪现场报告表）
+   - 存储犯罪事件的详细信息。
+   - 列：`id`（主键）、`year`、`month`、`day`、`street`（街道）、`description`（描述）。
+
+2. interviews（采访记录表）
+   - 存储相关人员的采访记录。
+   - 列：`id`（主键）、`name`（姓名）、`year`、`month`、`day`、`transcript`（转录文本）。
+
+3. atm_transactions（ATM交易表）
+   - 记录ATM取款或存款交易。
+   - 列：`id`（主键）、`account_number`（账户号）、`year`、`month`、`day`、`atm_location`（ATM位置）、`transaction_type`（交易类型）、`amount`（金额）。
+
+4. bank_accounts（银行账户表）
+   - 存储银行账户信息，并关联到人物。
+   - 列：`account_number`（账户号）、`person_id`（人物ID）、`creation_year`（创建年份）。
+   - 外键：`person_id` 引用 `people(id)`。
+
+5. airports（机场信息表）
+   - 存储机场的详细信息。
+   - 列：`id`（主键）、`abbreviation`（缩写）、`full_name`（全名）、`city`（城市）。
+
+6. flights（航班信息表）
+   - 记录航班数据，包括起降机场。
+   - 列：`id`（主键）、`origin_airport_id`（起飞机场ID）、`destination_airport_id`（降落机场ID）、`year`、`month`、`day`、`hour`、`minute`。
+   - 外键：`origin_airport_id` 引用 `airports(id)`，`destination_airport_id` 引用 `airports(id)`。
+
+7. passengers（乘客信息表）
+   - 存储航班乘客信息，关联到航班和人物（通过护照）。
+   - 列：`flight_id`（航班ID）、`passport_number`（护照号）、`seat`（座位号）。
+   - 外键：`flight_id` 引用 `flights(id)`。
+
+8. phone_calls（电话通话记录表）
+   - 记录电话通话详情。
+   - 列：`id`（主键）、`caller`（呼叫方号码）、`receiver`（接收方号码）、`year`、`month`、`day`、`duration`（通话时长，秒）。
+
+9. people（人物信息表）
+   - 存储核心人物信息，用于关联其他表（如银行账户、乘客、电话等）。
+   - 列：`id`（主键）、`name`（姓名）、`phone_number`（电话号码）、`passport_number`（护照号）、`license_plate`（车牌号）。
+
+10. bakery_security_logs（面包店安全日志表）
+    - 记录面包店的安全日志，包括进出活动。
+    - 列：`id`（主键）、`year`、`month`、`day`、`hour`、`minute`、`activity`（活动类型，如进入或离开）、`license_plate`（车牌号）。
+
+
+
+思路：寻找鸭子有关案件-->查找到对应笔录-->收集证词-->检索卷子中的各类行为-->收缩目标范围
+   提示，飞机航班时间是重要的一个突破口
