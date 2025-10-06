@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+    <title>Trivia!</title>
+    <script>
+        let buttonsDisabled = false;
+        let timeoutId = null;
+
+        function checkMultiChoice(event) {
+            // 如果按钮已被禁用，则直接返回
+            if (buttonsDisabled) return;
+
+            const button = event.target;
+            const parent = button.parentElement;
+            const feedback = parent.querySelector('.feedback');
+            const allButtons = parent.querySelectorAll('button');
+
+            // 禁用所有按钮
+            allButtons.forEach(btn => {
+                btn.disabled = true;
+            });
+            buttonsDisabled = true;
+
+            // 清除可能存在的之前的超时
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+                timeoutId = null;
+            }
+
+            if (button.textContent.trim() === 'B.x>z>y') {
+                // 正确答案的处理
+                button.style.backgroundColor = 'Green';
+                feedback.innerHTML = 'Correct!';
+                feedback.style.color = 'green';
+            } else {
+                // 错误答案的处理
+                button.style.backgroundColor = 'Red';
+                feedback.innerHTML = 'Incorrect';
+                feedback.style.color = 'red';
+
+                // 设置1秒后重置
+                timeoutId = setTimeout(() => {
+                    // 使用do-while重置按钮状态
+                    let i = 0;
+                    do {
+                        allButtons[i].style.backgroundColor = '';
+                        allButtons[i].disabled = false;
+                        i++;
+                    } while (i < allButtons.length);
+
+                    feedback.innerHTML = '';
+                    buttonsDisabled = false;
+                    timeoutId = null;
+                }, 1000);
+            }
+        }
+
+        function checkFreeResponse(event) {
+            let button = event.target;
+            let input = button.parentElement.querySelector('input');
+            let userAnswer = input.value;
+            let feedback = input.parentElement.querySelector('.feedback');
+
+            //保存原状态
+            const originalBgColor = input.style.backgroundColor;
+            const originalColor = input.style.color;
+
+            if (/\bexpressway\b/i.test(userAnswer)) {
+                input.style.backgroundColor = 'Green';
+                feedback.innerHTML = 'Correct!';
+            } else {
+                // 错误状态：红色背景
+                input.style.backgroundColor = 'Red';
+                feedback.innerHTML = 'Incorrect<br>hint: Traffic rules';
+
+                // 1.5秒后自动清除输入并恢复样式
+                setTimeout(() => {
+                    // 清除输入内容
+                    input.value = '';
+
+                    // 恢复原始样式
+                    input.style.backgroundColor = originalBgColor || '';
+                    input.style.color = originalColor || '';
+
+                    // 清除反馈信息
+                    feedback.innerHTML = '';
+                }, 1500);
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="header">
+    <h1>Trivia!</h1>
+</div>
+
+<div class="container">
+    <div class="section">
+        <h2>Part 1: Multiple Choice </h2>
+        <hr>
+        <h3>If real numbers x, y, and z satisfy 2 + log₂x = 3 + log₃y = 5 + log₅z, then the relationship among x, y, and z cannot be: </h3>
+        <button onclick="checkMultiChoice(event)">A.x>y>z</button>
+        <button onclick="checkMultiChoice(event)">B.x>z>y</button>
+        <button onclick="checkMultiChoice(event)">C.y>x>z</button>
+        <button onclick="checkMultiChoice(event)">D.y>z>x</button>
+        <p class="feedback"></p>
+    </div>
+
+    <div class="section">
+        <h2>Part 2: Free Response</h2>
+        <hr>
+        <h3>Hellish Joke: Louis XVI's Techniques for Saving His Life:</h3>
+        <input type="text"></input>
+        <button onclick="checkFreeResponse(event)">Check Answer</button>
+        <p class="feedback"></p>
+    </div>
+</div>
+</body>
+</html>
