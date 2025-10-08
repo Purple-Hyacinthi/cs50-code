@@ -1,0 +1,236 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: #243137;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* 修改卡片尺寸和位置 */
+.card {
+    /* 使用视口最小值确保对称 */
+    width: min(75vw, 75vh * 1.5); /* 保持3:2宽高比 */
+    height: min(50vw, 75vh);      /* 高度为宽度的2/3 */
+    max-width: 900px;
+    max-height: 600px;
+    background: #243137;
+    display: grid;
+    place-content: center;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: all 0.5s ease-in-out;
+    position: relative;
+    margin: auto; /* 确保居中 */
+}
+
+/* 调整内容比例 */
+.content {
+    transform: scale(2); /* 等比放大内容 */
+    transition: all 0.5s ease-in-out;
+}
+
+/* 调整文字大小和位置 */
+.bottom-text {
+    font-size: 14px; /* 增大文字 */
+    bottom: 40px;   /* 调整位置 */
+    padding: 0 10px 0 12px;
+}
+
+.content .logo-bottom-text {
+    font-size: 18px; /* 增大文字 */
+    margin-top: 50px; /* 调整位置 */
+}
+
+/* 调整logo容器尺寸 */
+.content .logo {
+    height: 80px; /* 增大高度 */
+    width: 100px;  /* 增大宽度 */
+}
+
+/* 调整logo元素尺寸 */
+.content .logo .logo1,
+.content .logo .logo2 {
+    height: 76px; /* 增大高度 */
+}
+
+/* 修改悬浮效果 */
+.card:hover {
+    transform: scale(1.05); /* 仅缩放不移位 */
+    border-radius: 0;
+}
+
+/* 调整边框大小 */
+.border {
+    inset: 0; /* 初始状态 */
+}
+
+.card:hover .border {
+    inset: 30px; /* 悬浮时增大边框间距 */
+}
+
+/* 确保内部SVG图标比例 */
+#logo-main, #logo-second {
+    transform: scale(1.4);
+    transform-origin: center;
+}
+
+#logo-main, #logo-second {
+    height: 100%;
+}
+
+#logo-main {
+    fill: #bd9f67;
+}
+
+#logo-second {
+    padding-bottom: 10px;
+    fill: none;
+    stroke: #bd9f67;
+    stroke-width: 1px;
+}
+
+.border {
+    position: absolute;
+    inset: 0;
+    border: 2px solid #bd9f67;
+    opacity: 0;
+    transform: rotate(10deg);
+    transition: all 0.5s ease-in-out;
+}
+
+.bottom-text {
+    position: absolute;
+    left: 50%;
+    bottom: 13px;
+    transform: translateX(-50%);
+    font-size: 6px;
+    text-transform: uppercase;
+    padding: 0 5px 0 8px;
+    color: #bd9f67;
+    background: #243137;
+    opacity: 0;
+    letter-spacing: 7px;
+    transition: all 0.5s ease-in-out;
+}
+
+.content {
+    transition: all 0.5s ease-in-out;
+}
+
+.content .logo {
+    height: 35px;
+    position: relative;
+    width: 33px;
+    overflow: hidden;
+    transition: all 1s ease-in-out;
+}
+
+.content .logo .logo1 {
+    height: 33px;
+    position: absolute;
+    left: 0;
+}
+
+.content .logo .logo2 {
+    height: 33px;
+    position: absolute;
+    left: 33px;
+}
+
+.content .logo .trail {
+    position: absolute;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+}
+
+.content .logo-bottom-text {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: 30px;
+    color: #bd9f67;
+    padding-left: 8px;
+    font-size: 11px;
+    opacity: 0;
+    letter-spacing: normal;
+    transition: all 0.5s ease-in-out 0.5s;
+}
+
+.card:hover {
+    border-radius: 0;
+    transform: scale(1.1);
+}
+
+.card:hover .logo {
+    width: 134px;
+    animation: opacity 1s ease-in-out;
+}
+
+.card:hover .border {
+    inset: 15px;
+    opacity: 1;
+    transform: rotate(0);
+}
+
+.card:hover .bottom-text {
+    letter-spacing: 3px;
+    opacity: 1;
+    transform: translateX(-50%);
+}
+
+.card:hover .content .logo-bottom-text {
+    opacity: 1;
+    letter-spacing: 9.5px;
+}
+
+.card:hover .trail {
+    animation: trail 1s ease-in-out;
+}
+
+@keyframes opacity {
+    0% {
+        border-right: 1px solid transparent;
+    }
+
+    10% {
+        border-right: 1px solid #bd9f67;
+    }
+
+    80% {
+        border-right: 1px solid #bd9f67;
+    }
+
+    100% {
+        border-right: 1px solid transparent;
+    }
+}
+
+@keyframes trail {
+    0% {
+        background: linear-gradient(90deg, rgba(189, 159, 103, 0) 90%, rgb(189, 159, 103) 100%);
+        opacity: 0;
+    }
+
+    30% {
+        background: linear-gradient(90deg, rgba(189, 159, 103, 0) 70%, rgb(189, 159, 103) 100%);
+        opacity: 1;
+    }
+
+    70% {
+        background: linear-gradient(90deg, rgba(189, 159, 103, 0) 70%, rgb(189, 159, 103) 100%);
+        opacity: 1;
+    }
+
+    95% {
+        background: linear-gradient(90deg, rgba(189, 159, 103, 0) 90%, rgb(189, 159, 103) 100%);
+        opacity: 0;
+    }
+}
+
