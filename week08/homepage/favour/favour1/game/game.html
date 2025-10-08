@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.5s ease, color 0.5s ease;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+            position: relative; /* 为背景层提供定位上下文 */
+        }
+
+        /* 新增背景层样式 */
+        .bg-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            z-index: -1; /* 确保在内容下方 */
+            opacity: 0.8; /* 默认透明度 */
+            transition: opacity 0.5s ease, background-image 0.5s ease; /* 添加背景图片过渡 */
+        }
+
+        .tabs-container {
+            width: 250px;
+            background: rgba(20, 20, 30, 0.9);
+            padding: 30px 0;
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.2);
+            overflow-y: auto;
+            z-index: 10;
+        }
+
+        .tab {
+            padding: 18px 30px;
+            margin: 12px 15px;
+            border-radius: 8px;
+            color: #e0e0ff;
+            background: rgba(40, 45, 60, 0.7);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            font-size: 18px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+        }
+
+        .tab:hover {
+            transform: scale(1.15);
+            background: rgba(50, 55, 75, 0.95);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            z-index: 20;
+        }
+
+        .tab::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .tab:hover::after {
+            opacity: 1;
+        }
+
+        .content-area {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .content-box {
+            max-width: 700px;
+            padding: 30px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .content-box.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #34495e;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="bg-layer"></div>
+
+
+<div class="tabs-container">
+    <div class="tab"
+         data-title="Call of Duty"
+         data-text="Call of Duty is a renowned first-person shooter series known for its intense gameplay, realistic graphics, and engaging multiplayer modes."
+         data-bg-image="picture/cod-bg.png">
+        Call of Duty
+    </div>
+    <div class="tab"
+         data-title="Minecraft"
+         data-text="Minecraft is a unique sandbox game offering endless creation possibilities and enjoyable survival challenges across multiple platforms."
+         data-bg-image="picture/minecraft-bg.png">
+        Minecraft
+    </div>
+    <div class="tab"
+         data-title="Arknights"
+         data-text="Arknights is a strategic tower defense game featuring unique characters, challenging missions, and a compelling storyline.The crisis contract is a very interesting gameplay."
+         data-bg-image="picture/arknights-bg.png">
+        Arknights
+    </div>
+</div>
+
+<!-- 内容展示区 -->
+<div class="content-area">
+    <div class="content-box">
+        <h1 id="content-title"></h1>
+        <p id="content-text"></p>
+    </div>
+</div>
+
+<script>
+    // 获取DOM元素
+    const tabs = document.querySelectorAll('.tab');
+    const contentBox = document.querySelector('.content-box');
+    const contentTitle = document.getElementById('content-title');
+    const contentText = document.getElementById('content-text');
+    const body = document.body;
+    const bgLayer = document.querySelector('.bg-layer');
+
+    // 添加悬浮事件监听
+    tabs.forEach(tab => {
+        tab.addEventListener('mouseenter', () => {
+
+            if (tab.dataset.bgImage) {
+                bgLayer.style.backgroundImage = `url(${tab.dataset.bgImage})`;
+            }
+
+            // 更新内容区域
+            contentTitle.textContent = tab.dataset.title;
+            contentText.textContent = tab.dataset.text;
+
+            // 显示内容区域动画
+            contentBox.classList.remove('visible');
+            setTimeout(() => {
+                contentBox.classList.add('visible');
+            }, 10);
+        });
+    });
+
+    // 页面加载时设置默认背景图片
+    document.addEventListener('DOMContentLoaded', () => {
+        // 使用第一个标签的背景图片作为默认
+        if (tabs.length > 0 && tabs[0].dataset.bgImage) {
+            bgLayer.style.backgroundImage = `url(${tabs[0].dataset.bgImage})`;
+        }
+    });
+</script>
+</body>
+</html>

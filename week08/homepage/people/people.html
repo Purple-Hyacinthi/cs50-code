@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>self-introduction</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="people.css" rel="stylesheet">
+</head>
+<body>
+
+<h1 class="people_main">
+    <span class="people_line people_animation line1 people_size1">purple_hyacinthi，</span><br>
+    <span class="people_line people_animation line2 people_size2">Seekers,Solitary,Pathfinders</span>
+</h1>
+
+<p class="people_foot">"Amidst the ruins of ninefold cataclysm, resolution grows cold;
+    Upon solitary peaks of silicon steps, the Taoist heart shines clear."</p>
+
+<div class="container">
+    <canvas id="eraseCanvas"></canvas>
+</div>
+
+<script>
+    const REDIRECT_URL = "favour/favour";
+    const ERASE_RADIUS = 30;
+    const THRESHOLD = 40;
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const canvas = document.getElementById('eraseCanvas');
+        const ctx = canvas.getContext('2d');
+        const container = document.querySelector('.container');
+        const ERASE_RADIUS = 30;
+        const THRESHOLD = 40; // 擦除40%后跳转
+        const REDIRECT_URL = "/favour/favour";
+
+        // 设置canvas尺寸匹配容器
+        canvas.width = container.offsetWidth;
+        canvas.height = container.offsetHeight;
+
+        // 创建图像对象加载黑白SVG
+        const maskImage = new Image();
+        maskImage.onload = function() {
+            // 直接将黑白SVG绘制到canvas作为蒙版
+            ctx.drawImage(maskImage, 0, 0, canvas.width, canvas.height);
+        };
+        maskImage.src = 'hyacinth黑白-01.svg'; // 黑白蒙版文件
+
+        // 擦除功能实现
+        let eraseCount = 0;
+        let isRedirecting = false;
+
+        canvas.addEventListener('mousemove', function(e) {
+            if (isRedirecting) return;
+
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            // 使用destination-out模式擦除蒙版
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.beginPath();
+            ctx.arc(x, y, ERASE_RADIUS, 0, Math.PI * 2);
+            ctx.fill();
+
+            // 每20次移动检查一次擦除比例
+            eraseCount++;
+            if (eraseCount % 20 === 0) {
+                checkErasePercentage();
+            }
+        });
+
+        // 检查擦除比例函数
+        function checkErasePercentage() {
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+            let transparentCount = 0;
+
+            // 计算透明像素数量（已被擦除部分）
+            for (let i = 0; i < data.length; i += 4) {
+                if (data[i + 3] === 0) {
+                    transparentCount++;
+                }
+            }
+
+            const percentage = (transparentCount / (data.length / 4)) * 100;
+
+            // 达到阈值后跳转页面
+            if (percentage >= THRESHOLD && !isRedirecting) {
+                isRedirecting = true;
+                window.location.href = REDIRECT_URL;
+            }
+        }
+    });
+</script>
+</body>
+</html>
