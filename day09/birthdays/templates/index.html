@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+        <link href="/static/styles.css" rel="stylesheet"><!--地址记得改-->
+        <title>Birthdays</title>
+    </head>
+    <body>
+
+        <div class="header">
+            <h1>Birthdays</h1>
+        </div>
+        <div class="container">
+            <div class="section">
+
+                <h2>Add a Birthday</h2>
+                <!-- TODO：创建一个表单让用户提交姓名、月份和日期 -->
+            <form action="/" method="post" class="input-group" id="myForm">
+                <label for="name"></label>
+                <input type="text" id="name" name="name" placeholder="name">  <!-- 添加name属性 -->
+                <label for="date"></label>
+                <input type="date" id="date" name="date">  <!-- 添加name属性 -->
+                <button type="submit">Add birthday</button>
+            </form>
+
+            </div>
+
+            <div class="section">
+
+                <h2>All Birthdays</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Birthday</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for birthday in birthdays %}
+                        <tr>
+                            <td>{{ birthday.name }}</td>  <!-- 显示姓名 -->
+                            <td>{{ birthday.month }}/{{ birthday.day }}</td>  <!-- 显示生日 -->
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <script>
+            document.getElementById('myForm').addEventListener('submit', function(event) {
+                var name = document.getElementById('name').value;
+                var date = document.getElementById('date').value;
+                if (name.trim() === '' || date.trim() === '' || date.trim() === '') {
+                    alert('姓名和日期不能为空！');
+                    event.preventDefault(); // 阻止表单提交//
+                }});
+        </script>
+    </body>
+</html>

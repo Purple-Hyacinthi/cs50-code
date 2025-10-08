@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    买入
+{% endblock %}
+
+{% block main %}
+    <form action="/buy" method="post">
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto"
+                   name="symbol" placeholder="股票代码" type="text">
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto"
+                   name="shares" placeholder="数量" type="number" min="1">
+        </div>
+        <button class="btn btn-primary" type="submit">买入</button>
+    </form>
+{% endblock %}
