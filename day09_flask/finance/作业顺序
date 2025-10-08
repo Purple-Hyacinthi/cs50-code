@@ -1,0 +1,51 @@
+提示：
+有大量东西需要更改
+1.CS50给提示的templates：需添加各类HTML--> 包括是APP.py中给出的和你自定义的功能
+2.记得更新数据库Finance.db，这个里面的表结构以及其他内容都缺失
+    原本这个db只有用户表包含：ID，用户姓名，哈希值，零钱
+    无存储表
+    所以需添加两个表(服务对象)
+        1.交易记录表（history.html）
+        2.持仓表（index.html）
+    并为其添加特殊索引
+示例：
+    sqlite
+    -- 删除现有表（如果存在）
+    DROP TABLE IF EXISTS transactions;
+    DROP TABLE IF EXISTS holdings;
+    DROP TABLE IF EXISTS users;
+
+    -- 创建用户表
+    CREATE TABLE users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+        username TEXT NOT NULL,  -- 确保有 username 列
+        hash TEXT NOT NULL,
+        cash NUMERIC NOT NULL DEFAULT 10000.00
+    );
+
+    -- 创建唯一索引
+    CREATE UNIQUE INDEX username ON users (username);
+
+    -- 创建交易记录表
+    CREATE TABLE transactions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+        user_id INTEGER NOT NULL,
+        symbol TEXT NOT NULL,
+        shares INTEGER NOT NULL,
+        price NUMERIC NOT NULL,
+        transacted TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY(user_id) REFERENCES users(id)
+    );
+
+    -- 创建持仓表
+    CREATE TABLE holdings (
+        user_id INTEGER NOT NULL,
+        symbol TEXT NOT NULL,
+        shares INTEGER NOT NULL,
+        PRIMARY KEY(user_id, symbol),
+        FOREIGN KEY(user_id) REFERENCES users(id)
+    );
+
+    -- 创建索引
+    CREATE INDEX idx_transactions_user ON transactions(user_id);
+    CREATE INDEX idx_holdings_user ON holdings(user_id);
